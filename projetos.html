@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matheus Mustaro · Projetos</title>
+    <meta name="description" content="Projetos de Matheus Tobias Mustaro: desenvolvimento web, jogos, robótica e mais.">
+    <meta name="theme-color" content="#0a0c11">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+    <header class="site-header">
+        <div class="container nav">
+            <a href="index.html" class="brand"><span class="brand-mark">MM</span>matheus.mustaro</a>
+            <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Currículo</a></li>
+                <li><a href="projetos.html" aria-current="page">Projetos</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <main id="conteudo">
+        <div class="container hero" style="padding-bottom: 24px;">
+            <p class="eyebrow">// projetos</p>
+            <h1>O que eu <span class="gradient-text">construí</span></h1>
+            <p class="lead">Uma seleção de projetos pessoais, acadêmicos e de cursos.</p>
+        </div>
+
+        <section class="container" style="padding-top: 24px;">
+            <div class="filters" id="filtros" role="group" aria-label="Filtrar projetos por categoria"></div>
+            <div class="grid grid-3" id="lista"></div>
+            <p class="empty" id="vazio" hidden>Nenhum projeto nesta categoria ainda.</p>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <span>© <span id="ano">2026</span> Matheus Tobias Mustaro</span>
+            <span>Feito com HTML, CSS e JavaScript</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+    /* ==========================================================
+       EDITE AQUI SEUS PROJETOS
+       Cada projeto é um bloco { ... }. Campos:
+         titulo, descricao, categoria, tags (lista),
+         github (link, opcional), demo (link, opcional)
+       Os 3 primeiros são EXEMPLOS (exemplo: true): troque pelo
+       conteúdo real e apague a linha "exemplo: true".
+       ========================================================== */
+    var projetos = [
+        {
+            exemplo: true,
+            titulo: "Site com PHP e MySQL",
+            descricao: "Aplicação web com cadastro de usuários e banco de dados relacional. Descreva aqui o problema que resolveu e o que você aprendeu.",
+            categoria: "Web",
+            tags: ["PHP", "MySQL", "HTML", "CSS"],
+            github: "", demo: ""
+        },
+        {
+            exemplo: true,
+            titulo: "Jogo 2D em Unity",
+            descricao: "Jogo desenvolvido em Unity (C#). Conte o gênero, as mecânicas principais e se foi um projeto solo ou em equipe.",
+            categoria: "Jogos",
+            tags: ["Unity", "C#"],
+            github: "", demo: ""
+        },
+        {
+            exemplo: true,
+            titulo: "Automação com Arduino",
+            descricao: "Projeto de robótica/automação com sensores e atuadores. Explique o que ele faz e como foi montado.",
+            categoria: "Robótica",
+            tags: ["Arduino", "C++"],
+            github: "", demo: ""
+        }
+    ];
+
+    /* --------------------- código da página --------------------- */
+    var lista = document.getElementById("lista");
+    var filtros = document.getElementById("filtros");
+    var vazio = document.getElementById("vazio");
+    var ativo = "Todos";
+
+    function el(tag, cls, text) {
+        var n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text) n.textContent = text;
+        return n;
+    }
+
+    function linkExterno(texto, url) {
+        var a = el("a", "", texto);
+        a.href = url; a.target = "_blank"; a.rel = "noopener";
+        return a;
+    }
+
+    function desenhar() {
+        lista.innerHTML = "";
+        var visiveis = projetos.filter(function (p) { return ativo === "Todos" || p.categoria === ativo; });
+        vazio.hidden = visiveis.length > 0;
+
+        visiveis.forEach(function (p) {
+            var card = el("article", "card project");
+            var topo = el("div", "project-top");
+            topo.appendChild(el("h3", "", p.titulo));
+            if (p.exemplo) topo.appendChild(el("span", "badge", "exemplo"));
+            card.appendChild(topo);
+            card.appendChild(el("p", "", p.descricao));
+
+            var tags = el("ul", "chips");
+            (p.tags || []).forEach(function (t) {
+                var li = el("li", "chip", t); tags.appendChild(li);
+            });
+            card.appendChild(tags);
+
+            if (p.github || p.demo) {
+                var links = el("div", "project-links");
+                if (p.github) links.appendChild(linkExterno("GitHub ↗", p.github));
+                if (p.demo) links.appendChild(linkExterno("Demo ↗", p.demo));
+                card.appendChild(links);
+            }
+            lista.appendChild(card);
+        });
+    }
+
+    function montarFiltros() {
+        var cats = ["Todos"];
+        projetos.forEach(function (p) { if (cats.indexOf(p.categoria) < 0) cats.push(p.categoria); });
+        if (cats.length <= 2) { filtros.hidden = true; return; }
+        cats.forEach(function (c) {
+            var b = el("button", "filter" + (c === ativo ? " active" : ""), c);
+            b.type = "button";
+            b.addEventListener("click", function () {
+                ativo = c;
+                Array.prototype.forEach.call(filtros.children, function (x) {
+                    x.classList.toggle("active", x.textContent === c);
+                });
+                desenhar();
+            });
+            filtros.appendChild(b);
+        });
+    }
+
+    montarFiltros();
+    desenhar();
+    </script>
+</body>
+</html>
