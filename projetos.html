@@ -54,10 +54,19 @@
        Cada projeto é um bloco { ... }. Campos:
          titulo, descricao, categoria, tags (lista),
          github (link, opcional), demo (link, opcional)
-       Os 3 primeiros são EXEMPLOS (exemplo: true): troque pelo
-       conteúdo real e apague a linha "exemplo: true".
+       Para adicionar um projeto, copie um bloco { ... } e separe
+       os blocos por vírgula. Os filtros de categoria aparecem
+       sozinhos quando houver mais de uma categoria.
        ========================================================== */
     var projetos = [
+        {
+            titulo: "Carros Abandonados",
+            descricao: "Site criado para ajudar a prefeitura a localizar veículos abandonados e facilitar o recolhimento. Projeto com foco em utilidade pública, pensado para uso no celular e publicado online na Vercel.",
+            categoria: "Web",
+            tags: ["Web", "Mobile", "Vercel", "Utilidade pública"],
+            github: "",
+            demo: "https://carros-abandonados.vercel.app/"
+        },
         {
             titulo: "Espanhol App",
             descricao: "Aplicativo web para ajudar a aprender espanhol, com navegação por Início, Palavras e Perfil. Pensado para uso no celular e publicado online no GitHub Pages.",
@@ -65,30 +74,6 @@
             tags: ["HTML", "CSS", "JavaScript", "Espanhol", "Mobile"],
             github: "",
             demo: "https://srmathsz.github.io/spanishapp/"
-        },
-        {
-            exemplo: true,
-            titulo: "Site com PHP e MySQL",
-            descricao: "Aplicação web com cadastro de usuários e banco de dados relacional. Descreva aqui o problema que resolveu e o que você aprendeu.",
-            categoria: "Web",
-            tags: ["PHP", "MySQL", "HTML", "CSS"],
-            github: "", demo: ""
-        },
-        {
-            exemplo: true,
-            titulo: "Jogo 2D em Unity",
-            descricao: "Jogo desenvolvido em Unity (C#). Conte o gênero, as mecânicas principais e se foi um projeto solo ou em equipe.",
-            categoria: "Jogos",
-            tags: ["Unity", "C#"],
-            github: "", demo: ""
-        },
-        {
-            exemplo: true,
-            titulo: "Automação com Arduino",
-            descricao: "Projeto de robótica/automação com sensores e atuadores. Explique o que ele faz e como foi montado.",
-            categoria: "Robótica",
-            tags: ["Arduino", "C++"],
-            github: "", demo: ""
         }
     ];
 
